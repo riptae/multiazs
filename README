@@ -20,3 +20,8 @@ DB에는 private이 필요하므로
 public subnet + NAT(eip) + IGW
 private subnets + rt
 로 수정
+
+-
+
+[3] // 260129 할리스
+DB subnet group 추가

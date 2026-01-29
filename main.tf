@@ -122,3 +122,15 @@ resource "aws_route_table_association" "private_assoc_b" {
   route_table_id = aws_route_table.private_rt.id
 }
 
+# [6] DB subnet group
+resource "aws_db_subnet_group" "db_group" {
+  name = "main-db-subnet-group"
+  subnet_ids = [
+    aws_subnet.private_a.id,
+    aws_subnet.private_b.id
+  ]
+
+  tags = {
+    Name = "main-db-subnet-group"
+  }
+}
