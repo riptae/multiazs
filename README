@@ -1,0 +1,22 @@
+260128
+Multi-AZs
+
+[0] // 260126
+providers
+
+-
+
+[1] // 260126
+VPC
+2 public Subnets
+igw
+rt
+2 assoc
+
+-
+
+[2] // 260129
+DB에는 private이 필요하므로
+public subnet + NAT(eip) + IGW
+private subnets + rt
+로 수정
