@@ -123,7 +123,7 @@ resource "aws_route_table_association" "private_assoc_b" {
 }
 
 # [6] DB subnet group
-resource "aws_db_subnet_group" "db_group" {
+resource "aws_db_subnet_group" "db_subnet_group" {
   name = "main-db-subnet-group"
   subnet_ids = [
     aws_subnet.private_a.id,
@@ -132,5 +132,67 @@ resource "aws_db_subnet_group" "db_group" {
 
   tags = {
     Name = "main-db-subnet-group"
+  }
+}
+
+# [7] APP Security Group
+resource "aws_security_group" "app_sg" {
+  name        = "app-sg"
+  description = "App server security group"
+  vpc_id      = aws_vpc.main.id
+
+  #http
+  ingress {
+    description = "HTTP from internet"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  #https
+  ingress {
+    description = "HTTPS from internet"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "app-sg"
+  }
+}
+
+# [8] DB security Group
+resource "aws_security_group" "name" {
+  name        = "db-sg"
+  description = "Allow MySQL from app ONLY"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    description     = "MySQL from app"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = [aws_security_group.app_sg.id]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "db-sg"
   }
 }

@@ -25,3 +25,10 @@ private subnets + rt
 
 [3] // 260129 할리스
 DB subnet group 추가
+
+-
+
+[4] // 260130 성수
+APP Security group
+DB Security Group
+추가
