@@ -172,7 +172,7 @@ resource "aws_security_group" "app_sg" {
 }
 
 # [8] DB security Group
-resource "aws_security_group" "name" {
+resource "aws_security_group" "db_sg2" {
   name        = "db-sg"
   description = "Allow MySQL from app ONLY"
   vpc_id      = aws_vpc.main.id
@@ -194,5 +194,40 @@ resource "aws_security_group" "name" {
 
   tags = {
     Name = "db-sg"
+  }
+}
+
+# [9] RDS
+resource "aws_db_instance" "db" {
+  identifier        = "main-mysql"
+  engine            = "mysql"
+  engine_version    = "8.0"
+  instance_class    = "db.t3.micro"
+  allocated_storage = 20
+  storage_type      = "gp3"
+  storage_encrypted = true
+
+  username = "username"
+  password = "password"
+
+  db_subnet_group_name   = aws_db_subnet_group.db_subnet_group.name
+  vpc_security_group_ids = [aws_security_group.db_sg2.id]
+
+  multi_az            = true
+  publicly_accessible = false
+
+  port    = 3306
+  db_name = "appdb"
+
+  backup_retention_period = 7
+  maintenance_window      = "sun:16:00-sun:17:00"
+  backup_window           = "15:00-16:00"
+
+  deletion_protection = false
+  skip_final_snapshot = true
+  apply_immediately   = true
+
+  tags = {
+    Name = "main-mysql"
   }
 }

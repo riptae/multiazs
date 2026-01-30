@@ -32,3 +32,8 @@ DB subnet group 추가
 APP Security group
 DB Security Group
 추가
+
+-
+
+[5] // 260130 성수
+Multi-AZs RDS 추가
