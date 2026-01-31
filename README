@@ -37,3 +37,17 @@ DB Security Group
 
 [5] // 260130 성수
 Multi-AZs RDS 추가
+
+-
+
+[6] // 260130 지하철
+테스트용 ec2
+ec2 destory
+
+-
+
+
+[7] // 260131 철산역 KFC / 수영 후
+- EC2 User_data에 pw넣고 재실행
+- 직렬 콘솔로 EC2 -> RDS 접근
+- RDS failover test

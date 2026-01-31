@@ -231,3 +231,26 @@ resource "aws_db_instance" "db" {
     Name = "main-mysql"
   }
 }
+
+# [10] test EC2
+resource "aws_instance" "db_client" {
+  ami           = "ami-0c9c942bd7bf113a2"
+  instance_type = "t3.micro"
+
+  subnet_id = aws_subnet.private_a.id
+
+  vpc_security_group_ids = [
+    aws_security_group.app_sg.id
+  ]
+  user_data = <<-EOF
+  #!/bin/bash
+  set -eux
+  # ec2-user 비번 설정
+  echo 'ubuntu:password' | chpasswd
+  EOF
+
+  associate_public_ip_address = false
+  tags = {
+    Name = "db-client-ec2"
+  }
+}
